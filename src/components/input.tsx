@@ -4,10 +4,11 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 	label?: string;
 	icon?: ReactNode;
 	addOn?: ReactNode;
+	error?: string | null;
 }
 
 const Input = forwardRef<HTMLInputElement, Props>(
-	({ label, icon, addOn, id, ...props }, ref) => {
+	({ label, icon, error, addOn, id, ...props }, ref) => {
 		return (
 			<div className="flex flex-col gap-y-1">
 				{label && (
@@ -28,6 +29,9 @@ const Input = forwardRef<HTMLInputElement, Props>(
 					/>
 					{addOn}
 				</div>
+				{error && (
+					<span className="text-red-500 text-sm font-semibold">{error}</span>
+				)}
 			</div>
 		);
 	},

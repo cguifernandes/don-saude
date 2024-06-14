@@ -13,6 +13,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 	label?: string;
 	icon?: ReactNode;
 	addOn?: ReactNode;
+	error?: string | null;
 }
 
 const InputPassword = forwardRef<HTMLInputElement, Props>(
