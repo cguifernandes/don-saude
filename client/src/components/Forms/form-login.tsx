@@ -13,7 +13,7 @@ const FormLogin = () => {
 		} | null;
 	} | null>({});
 
-	const handleSubmitLogin = (e: FormEvent<HTMLFormElement>) => {
+	const handleSubmitLogin = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		const formData = new FormData(e.currentTarget);
@@ -42,11 +42,25 @@ const FormLogin = () => {
 		setErrors(newErrors);
 
 		if (!newErrors) {
-			console.log({
-				email,
-				password,
-				rememberMe,
-			});
+			try {
+				const response = await fetch("http://localhost:3333/api/users", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ email, password, rememberMe }),
+				});
+
+				const data = await response.json();
+
+				console.log(data);
+
+				if (response.ok) {
+					localStorage.setItem("token", data.token);
+				}
+			} catch (error) {
+				console.error("An error occurred", error);
+			}
 		}
 	};
 
