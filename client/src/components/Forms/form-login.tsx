@@ -5,8 +5,15 @@ import LockKey from "../../assets/icons/LockKey.svg";
 import Checkbox from "../checkbox";
 import Button from "../button";
 import { useState, type FormEvent } from "react";
+import type { UserProps } from "../../../../common/types";
+import type { HttpStatusCode } from "../../types/types";
+import { url } from "../../utils/utils";
+import toast from "react-hot-toast";
+import { useAuth } from "../../context/AuthContext";
 
 const FormLogin = () => {
+	const [isLoading, setIsLoading] = useState(false);
+	const auth = useAuth();
 	const [errors, setErrors] = useState<{
 		[key: string]: {
 			message: string;
@@ -43,23 +50,28 @@ const FormLogin = () => {
 
 		if (!newErrors) {
 			try {
-				const response = await fetch("http://localhost:3333/api/users", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({ email, password, rememberMe }),
-				});
+				setIsLoading(true);
+				const data = await auth.login(email, password, rememberMe);
 
-				const data = await response.json();
+				if (data.status >= 400 && data.status < 600) {
+					toast.error(data.message, {
+						position: "bottom-right",
+					});
+				} else {
+					toast.success(data.message, {
+						position: "bottom-right",
+					});
 
-				console.log(data);
+					const hasToken = localStorage.getItem("token");
 
-				if (response.ok) {
-					localStorage.setItem("token", data.token);
+					if (!hasToken) {
+						localStorage.setItem("token", data.token);
+					}
 				}
 			} catch (error) {
-				console.error("An error occurred", error);
+				console.error("Ocorreu um erro", error);
+			} finally {
+				setIsLoading(false);
 			}
 		}
 	};
@@ -92,7 +104,9 @@ const FormLogin = () => {
 			<Checkbox name="remember-me" id="checkbox" label="Lembre de mim" />
 
 			<div className="flex flex-col gap-y-2">
-				<Button theme="solid">Entrar</Button>
+				<Button isLoading={isLoading} theme="solid">
+					Entrar
+				</Button>
 				<Button type="button" theme="ghost">
 					Esqueci minha senha
 				</Button>
