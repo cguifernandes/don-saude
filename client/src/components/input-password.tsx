@@ -1,3 +1,5 @@
+import EyeClosed from "../assets/icons/EyeClosed";
+import EyeOpen from "../assets/icons/EyeOpen";
 import Input from "./input";
 import {
 	type HTMLInputTypeAttribute,
@@ -6,8 +8,6 @@ import {
 	type ReactNode,
 	forwardRef,
 } from "react";
-import EyeClosed from "../assets/icons/EyeClosed.svg";
-import EyeOpen from "../assets/icons/EyeOpen.svg";
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
 	label?: string;
@@ -33,11 +33,7 @@ const InputPassword = forwardRef<HTMLInputElement, Props>(
 							onClick={() => setTypeInput("text")}
 							className="flex items-center justify-center ml-auto"
 						>
-							<img
-								className="size-4"
-								src={EyeClosed.toString()}
-								alt="EyeClosed icon"
-							/>
+							<EyeClosed className="size-4 text-gray-400" />
 						</button>
 					) : (
 						<button
@@ -45,11 +41,7 @@ const InputPassword = forwardRef<HTMLInputElement, Props>(
 							onClick={() => setTypeInput("password")}
 							className="flex items-center justify-center ml-auto"
 						>
-							<img
-								className="size-4"
-								src={EyeOpen.toString()}
-								alt="EyeOpen icon"
-							/>
+							<EyeOpen className="size-4 text-gray-400" />
 						</button>
 					)
 				}

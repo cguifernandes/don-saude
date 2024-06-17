@@ -1,18 +1,17 @@
-import User from "../../assets/icons/User.svg";
 import Input from "../input";
 import InputPassword from "../input-password";
-import LockKey from "../../assets/icons/LockKey.svg";
 import Checkbox from "../checkbox";
 import Button from "../button";
 import { useState, type FormEvent } from "react";
-import type { UserProps } from "../../../../common/types";
-import type { HttpStatusCode } from "../../types/types";
-import { url } from "../../utils/utils";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useAuth } from "../../context/AuthContext";
+import User from "../../assets/icons/User";
+import LockKey from "../../assets/icons/LockKey";
 
 const FormLogin = () => {
 	const [isLoading, setIsLoading] = useState(false);
+	const navigate = useNavigate();
 	const auth = useAuth();
 	const [errors, setErrors] = useState<{
 		[key: string]: {
@@ -67,6 +66,8 @@ const FormLogin = () => {
 					if (!hasToken) {
 						localStorage.setItem("token", data.token);
 					}
+
+					navigate("/dashboard");
 				}
 			} catch (error) {
 				console.error("Ocorreu um erro", error);
@@ -79,10 +80,10 @@ const FormLogin = () => {
 	return (
 		<form
 			onSubmit={handleSubmitLogin}
-			className="flex flex-col flex-1 justify-between gap-y-3"
+			className="flex flex-col my-auto justify-between gap-y-3"
 		>
 			<Input
-				icon={<img className="size-5" src={User.toString()} alt="User icon" />}
+				icon={<User className="size-5 text-gray-400" />}
 				id="email-input"
 				placeholder="Preencha com e-mail"
 				label="E-mail"
@@ -97,12 +98,9 @@ const FormLogin = () => {
 				name="password"
 				maxLength={16}
 				error={errors?.password?.message}
-				icon={
-					<img className="size-5" src={LockKey.toString()} alt="LockKey icon" />
-				}
+				icon={<LockKey className="size-5 text-gray-400" />}
 			/>
 			<Checkbox name="remember-me" id="checkbox" label="Lembre de mim" />
-
 			<div className="flex flex-col gap-y-2">
 				<Button isLoading={isLoading} theme="solid">
 					Entrar

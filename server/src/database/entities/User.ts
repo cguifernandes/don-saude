@@ -15,5 +15,4 @@ class User {
 	rememberMe: boolean;
 }
 
-export type UserProps = Partial<Pick<User, keyof User>>;
 export default User;

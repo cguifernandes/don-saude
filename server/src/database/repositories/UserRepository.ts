@@ -1,32 +1,40 @@
-import User, { type UserProps } from "../entities/User";
+import User from "../entities/User";
 import { AppDataSource } from "../../database/data-source";
 import { HttpStatusCode } from "../../types/types";
 import bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
+import type { UserProps } from "../../../../common/types";
 require("dotenv").config();
 
 const userRepository = AppDataSource.getRepository(User);
 
 export const setUsers = async (newUser: UserProps) => {
-	const users = await userRepository.find();
-	console.log({ users });
-	const existUser = await userRepository.existsBy({
-		email: newUser.email,
+	const existUser = await userRepository.findOne({
+		where: { email: newUser.email },
 	});
 
 	if (!newUser.email || !newUser.password || !newUser.rememberMe) {
 		return {
-			status: HttpStatusCode.badRequest,
+			status: HttpStatusCode.noContent,
 			data: undefined,
-			message: "Usuário inválido.",
+			message: "Usuário inválido",
 		};
 	}
 
 	if (existUser) {
+		const token = jwt.sign(
+			{ userId: existUser.id, email: existUser.email },
+			process.env.JWT_SECRET ?? "",
+			{
+				expiresIn: newUser.rememberMe ? "7d" : "1h",
+			},
+		);
+
 		return {
-			message: "Este usuário já existe.",
-			status: HttpStatusCode.notFound,
-			data: undefined,
+			message: "Login foi um sucesso, você será direcionado",
+			status: HttpStatusCode.ok,
+			data: existUser,
+			token,
 		};
 	}
 
@@ -42,15 +50,10 @@ export const setUsers = async (newUser: UserProps) => {
 		},
 	);
 
-	console.log({
-		user,
-		token,
-	});
-
 	return {
 		data: user,
 		status: HttpStatusCode.created,
-		message: "Usuário criado com sucesso.",
+		message: "Usuário criado com sucesso",
 		token,
 	};
 };

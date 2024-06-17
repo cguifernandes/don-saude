@@ -2,13 +2,14 @@ import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { type VariantProps, tv } from "tailwind-variants";
 
 const button = tv({
-	base: "text-sm font-bold px-4 h-10 disabled:cursor-not-allowed",
+	base: "text-sm px-4 h-10 disabled:cursor-not-allowed",
 	variants: {
 		theme: {
-			solid:
-				"bg-pure-pink text-white rounded-full transition-colors hover:bg-pure-pink-500",
+			solid: "bg-pure-pink-400 shadow-default text-white rounded-full",
 			ghost:
-				"bg-white text-pure-pink transition-colors rounded-full border border-transparent hover:border-pure-pink-500",
+				"bg-white text-pure-pink-400 font-bold rounded-full border border-transparent",
+			soft: "bg-pure-pink-100 text-pure-pink-400 rounded-full",
+			empty: "bg-transparent rounded-full",
 		},
 	},
 });
@@ -18,11 +19,28 @@ interface Props
 		VariantProps<typeof button> {
 	isLoading?: boolean;
 	children: ReactNode;
+	icon?: ReactNode;
+	addOn?: ReactNode;
 }
 
-const Button = ({ isLoading, children, theme, ...props }: Props) => {
+const Button = ({
+	isLoading,
+	className,
+	icon,
+	children,
+	addOn,
+	theme,
+	...props
+}: Props) => {
 	return (
-		<button disabled={isLoading} className={button({ theme })} {...props}>
+		<button
+			disabled={isLoading}
+			className={button({
+				theme,
+				className,
+			})}
+			{...props}
+		>
 			{isLoading ? (
 				<svg
 					aria-hidden="true"
@@ -41,7 +59,11 @@ const Button = ({ isLoading, children, theme, ...props }: Props) => {
 					/>
 				</svg>
 			) : (
-				<>{children}</>
+				<>
+					{icon}
+					{children}
+					{addOn}
+				</>
 			)}
 		</button>
 	);

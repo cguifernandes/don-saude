@@ -5,9 +5,9 @@ import {
 	useEffect,
 	type ReactNode,
 } from "react";
-import { url } from "../utils/utils";
 import type { UserProps } from "../../../common/types";
 import type { HttpStatusCode } from "../types/types";
+import { url } from "../utils/utils";
 
 interface AuthContextType {
 	token: string;
@@ -26,7 +26,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType>({
 	token: "",
-	login: async (email, password, rememberMe) => {
+	login: async () => {
 		throw new Error("AuthProvider não foi fornecido.");
 	},
 	logout: () => {

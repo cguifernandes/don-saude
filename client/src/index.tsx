@@ -7,11 +7,18 @@ import Dashboard from "./components/Layout/dashboard";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./protectedRoutes";
+import Collaborators from "./components/Layout/collaborators";
 
 const router = createBrowserRouter([
 	{
-		path: "/",
+		path: "/dashboard",
 		element: <ProtectedRoute component={<Dashboard />} />,
+		children: [
+			{
+				path: "collaborators",
+				element: <Collaborators />,
+			},
+		],
 	},
 	{
 		path: "/login",
@@ -23,8 +30,8 @@ const rootElement = document.getElementById("root");
 if (rootElement) {
 	ReactDOM.createRoot(rootElement).render(
 		<React.StrictMode>
+			<Toaster />
 			<AuthProvider>
-				<Toaster />
 				<RouterProvider router={router} />
 			</AuthProvider>
 		</React.StrictMode>,

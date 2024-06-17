@@ -5,6 +5,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        montserrat: ['Montserrat', 'sans-serif'],
+        inter: ['Inter', 'sans-serif'],
+      },
       boxShadow: {
         'default': '0px 1px 2px 0px #1018280A',
       },
@@ -13,11 +17,16 @@ module.exports = {
       },
       colors: {
         "gray-100": "#D0D5DD",
+        "gray-200": "#EAECF0",
         "gray-400": "#667085",
         "gray-500": "#475467",
-        "pure-pink": "#D0005E",
-        "pure-pink-500": "#A2034B"
-      }
+        "gray-700": "#101828",
+        "pure-pink-100": "#FFF0F7",
+        "pure-pink-200": "#FFD3E7",
+        "pure-pink-400": "#D0005E",
+        "pure-pink-500": "#CB005B",
+      },
+
     },
   },
   plugins: [],

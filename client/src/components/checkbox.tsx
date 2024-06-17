@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { forwardRef, useState, type InputHTMLAttributes } from "react";
-import EyeOpen from "../assets/icons/Check.svg";
+import Check from "../assets/icons/Check";
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
 	label?: string;
@@ -22,15 +22,11 @@ const Checkbox = forwardRef<HTMLInputElement, Props>(
 						{...props}
 						className={clsx(
 							"w-4 h-4 appearance-none shadow-default border-gray-100 border rounded",
-							checkValue ? "bg-pure-pink border-none" : "bg-transparent",
+							checkValue ? "bg-pure-pink-400 border-none" : "bg-transparent",
 						)}
 					/>
 					{checkValue && (
-						<img
-							className="size-3 absolute"
-							src={EyeOpen.toString()}
-							alt="EyeOpen icon"
-						/>
+						<Check className="size-3 absolute bg-pure-pink-400 text-white" />
 					)}
 				</div>
 				{label && (
