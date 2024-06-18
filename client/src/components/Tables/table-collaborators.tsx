@@ -14,7 +14,8 @@ import Skeleton from "../skeleton";
 import { useCollaboratorContext } from "../../context/CollaboratorContext";
 
 const TableCollaborators = ({ selectedItem }: { selectedItem: number }) => {
-	const { fetchCollaborators, collaborators } = useCollaboratorContext();
+	const { fetchCollaborators, collaborators, searchCollaborator } =
+		useCollaboratorContext();
 	const [isLoading, setIsLoading] = useState(false);
 	const isWithAcessSystem = selectedItem === 0;
 
@@ -34,6 +35,22 @@ const TableCollaborators = ({ selectedItem }: { selectedItem: number }) => {
 			});
 	}, []);
 
+	const handlerSearchCollaborator = (query: string) => {
+		if (query !== "") {
+			setIsLoading(true);
+			searchCollaborator(query)
+				.catch((err) => {
+					toast.error("Ocorreu um erro ao buscar os colaboradores", {
+						position: "bottom-right",
+					});
+					console.log(`Ocorreu um erro: ${err}`);
+				})
+				.finally(() => {
+					setIsLoading(false);
+				});
+		}
+	};
+
 	return (
 		<table className="bg-white w-full rounded-2xl">
 			<thead>
@@ -44,6 +61,7 @@ const TableCollaborators = ({ selectedItem }: { selectedItem: number }) => {
 								className="!rounded-full !h-[37px] w-80"
 								placeholder="Buscar usuário"
 								icon={<MagnifyingGlass className="text-gray-400" />}
+								onChange={(e) => handlerSearchCollaborator(e.target.value)}
 							/>
 							<Button
 								icon={<SlidersHorizontal className="text-gray-400" />}

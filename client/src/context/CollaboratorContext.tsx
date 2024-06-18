@@ -19,6 +19,7 @@ interface CollaboratorContextType {
 		id: string,
 		collaborator: CollaboratorProps,
 	) => Promise<void>;
+	searchCollaborator: (query: string) => Promise<void>;
 }
 
 const CollaboratorContext = createContext<CollaboratorContextType>({
@@ -28,6 +29,7 @@ const CollaboratorContext = createContext<CollaboratorContextType>({
 	fetchCollaboratorById: async () => {},
 	addCollaborator: async () => {},
 	updateCollaborator: async () => {},
+	searchCollaborator: async () => {},
 });
 
 export const useCollaboratorContext = () => useContext(CollaboratorContext);
@@ -56,6 +58,24 @@ export const CollaboratorProvider: FC<{ children: ReactNode }> = ({
 
 			const data: { data: CollaboratorProps } = await response.json();
 			setCollaborator(data.data);
+		} catch (error) {
+			console.error("Erro ao buscar colaborador:", error);
+			throw error;
+		}
+	};
+
+	const searchCollaborator = async (query: string) => {
+		try {
+			const response = await fetch(`${url}/api/search/collaborator/${query}`, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+
+			const data: { data: CollaboratorProps[] } = await response.json();
+
+			setCollaborators(data.data);
 		} catch (error) {
 			console.error("Erro ao buscar colaborador:", error);
 			throw error;
@@ -123,6 +143,7 @@ export const CollaboratorProvider: FC<{ children: ReactNode }> = ({
 				fetchCollaboratorById,
 				addCollaborator,
 				updateCollaborator,
+				searchCollaborator,
 			}}
 		>
 			{children}

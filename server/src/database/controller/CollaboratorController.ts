@@ -4,6 +4,7 @@ import {
 	getCollaborator,
 	getCollaboratorWithId,
 	removeCollaborator,
+	searchCollaborator,
 	setCollaborator,
 } from "../repositories/CollaboratorRepository";
 
@@ -49,4 +50,13 @@ export const removeCollaboratorController = async (
 	const { id } = req.params;
 
 	res.json(await removeCollaborator(id));
+};
+
+export const searchCollaboratorController = async (
+	req: Request,
+	res: Response,
+) => {
+	const { query } = req.params;
+
+	res.json(await searchCollaborator(query));
 };

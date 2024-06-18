@@ -1,3 +1,4 @@
+import { Like } from "typeorm";
 import { AppDataSource } from "../../database/data-source";
 import { type CollaboratorProps, HttpStatusCode } from "../../types/types";
 import Collaborator from "../entities/Collaborator";
@@ -97,7 +98,7 @@ export const editCollaborator = async (
 	};
 };
 
-export const getCollaboratorWithId = async (id?: string) => {
+export const getCollaboratorWithId = async (id: string) => {
 	if (!id) {
 		return {
 			status: HttpStatusCode.noContent,
@@ -125,7 +126,7 @@ export const getCollaboratorWithId = async (id?: string) => {
 	};
 };
 
-export const removeCollaborator = async (id?: string) => {
+export const removeCollaborator = async (id: string) => {
 	if (!id) {
 		return {
 			status: HttpStatusCode.noContent,
@@ -148,5 +149,37 @@ export const removeCollaborator = async (id?: string) => {
 		message: "Usuàrio removido com sucesso",
 		status: HttpStatusCode.ok,
 		data: deletedCollaborator,
+	};
+};
+
+export const searchCollaborator = async (query: string) => {
+	if (!query) {
+		return {
+			status: HttpStatusCode.noContent,
+			data: undefined,
+			message: "A busca não foi fornecida",
+		};
+	}
+
+	const collaborators = await collaboratorRepository.find({
+		where: [
+			{ name: Like(`%${query}%`) },
+			{ cpf: Like(`%${query}%`) },
+			{ email: Like(`%${query}%`) },
+		],
+	});
+
+	if (!collaborators || collaborators.length === 0) {
+		return {
+			status: HttpStatusCode.notFound,
+			data: [],
+			message: "Colaborador não encontrado",
+		};
+	}
+
+	return {
+		message: "Colaborador encontrado com sucesso",
+		status: HttpStatusCode.ok,
+		data: collaborators,
 	};
 };
