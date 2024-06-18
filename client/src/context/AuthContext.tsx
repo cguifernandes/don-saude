@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 		token: string;
 	}> => {
 		try {
-			const response = await fetch(`${url}/api/users`, {
+			const response = await fetch(`${url}/api/user`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",

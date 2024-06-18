@@ -64,7 +64,7 @@ export const CollaboratorProvider: FC<{ children: ReactNode }> = ({
 
 	const fetchCollaborators = async () => {
 		try {
-			const response = await fetch(`${url}/api/getCollaborators`);
+			const response = await fetch(`${url}/api/collaborators`);
 			const data = await response.json();
 			setCollaborators(data.data);
 		} catch (error) {
@@ -75,7 +75,7 @@ export const CollaboratorProvider: FC<{ children: ReactNode }> = ({
 
 	const addCollaborator = async (collaborator: CollaboratorProps) => {
 		try {
-			const response = await fetch(`${url}/api/postCollaborator`, {
+			const response = await fetch(`${url}/api/collaborator`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -96,7 +96,7 @@ export const CollaboratorProvider: FC<{ children: ReactNode }> = ({
 		collaborator: CollaboratorProps,
 	) => {
 		try {
-			const response = await fetch(`${url}/api/editCollaborator/${id}`, {
+			const response = await fetch(`${url}/api/collaborator/${id}`, {
 				method: "PUT",
 				headers: {
 					"Content-Type": "application/json",
