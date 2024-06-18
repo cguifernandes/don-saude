@@ -10,6 +10,7 @@ import ProtectedRoute from "./protectedRoutes";
 import Collaborators from "./components/Layout/collaborators";
 import NewCollaborators from "./components/Layout/new-collaborators";
 import EditCollaborator from "./components/Layout/edit-collaborator";
+import { CollaboratorProvider } from "./context/CollaboratorContext";
 
 const router = createBrowserRouter([
 	{
@@ -41,9 +42,11 @@ if (rootElement) {
 	ReactDOM.createRoot(rootElement).render(
 		<React.StrictMode>
 			<Toaster />
-			<AuthProvider>
-				<RouterProvider router={router} />
-			</AuthProvider>
+			<CollaboratorProvider>
+				<AuthProvider>
+					<RouterProvider router={router} />
+				</AuthProvider>
+			</CollaboratorProvider>
 		</React.StrictMode>,
 	);
 }

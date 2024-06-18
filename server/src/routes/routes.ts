@@ -3,6 +3,7 @@ import {
 	getCollaboratorController,
 	setCollaboratorController,
 	getCollaboratorWithIdController,
+	editCollaboratorController,
 } from "../database/controller/CollaboratorController";
 import { setUsersController } from "../database/controller/UserController";
 
@@ -12,7 +13,7 @@ routers.post("/api/users", (req: Request, res: Response) =>
 	setUsersController(req, res),
 );
 
-routers.post("/api/collaborator", (req: Request, res: Response) =>
+routers.post("/api/postCollaborator", (req: Request, res: Response) =>
 	setCollaboratorController(req, res),
 );
 
@@ -22,6 +23,10 @@ routers.get("/api/getCollaborators", (req: Request, res: Response) =>
 
 routers.get("/api/collaborator/:id", (req: Request, res: Response) =>
 	getCollaboratorWithIdController(req, res),
+);
+
+routers.put("/api/editCollaborator/:id", (req: Request, res: Response) =>
+	editCollaboratorController(req, res),
 );
 
 export default routers;

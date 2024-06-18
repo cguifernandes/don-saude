@@ -18,6 +18,7 @@ const File = ({
 	file,
 	id,
 	setFile,
+	defaultValue,
 	...props
 }: Props) => {
 	const handlerChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +40,7 @@ const File = ({
 					className="border text-gray-400 text-sm border-gray-100 border-dashed px-3 py-2 h-10 gap-x-2 flex justify-center items-center rounded-xl"
 					htmlFor={id}
 				>
-					{file ? file.name : "Clique ou arraste"}
+					{file ? file.name : defaultValue ? defaultValue : "Clique ou arraste"}
 					<FileArrowDown />
 				</label>
 				<input

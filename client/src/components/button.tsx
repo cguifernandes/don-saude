@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { type VariantProps, tv } from "tailwind-variants";
 
 const button = tv({
-	base: "text-sm px-4 h-10 disabled:cursor-not-allowed",
+	base: "text-sm px-4 h-10 disabled:cursor-not-allowed disabled:opacity-30",
 	variants: {
 		theme: {
 			solid: "bg-pure-pink-400 shadow-default text-white rounded-full",

@@ -11,6 +11,10 @@ const Login = () => {
 	const hasToastBeenShown = useRef(false);
 
 	useEffect(() => {
+		document.title = "Don Saúde | Login";
+	}, []);
+
+	useEffect(() => {
 		if (token && !hasToastBeenShown.current) {
 			hasToastBeenShown.current = true;
 			toast.error(

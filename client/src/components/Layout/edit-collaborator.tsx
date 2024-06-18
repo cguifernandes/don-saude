@@ -1,39 +1,25 @@
 import { Link } from "react-router-dom";
 import CaretDown from "../../assets/icons/CaretDown";
-import FormNewCollaborators from "../Forms/form-collaborators";
+import FormCollaborators from "../Forms/form-collaborators";
 import { useEffect, useState } from "react";
-import { url } from "../../utils/utils";
-import type { CollaboratorProps } from "../../types/types";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
+import { useCollaboratorContext } from "../../context/CollaboratorContext";
 
 const EditCollaborator = () => {
+	const { fetchCollaboratorById, collaborator } = useCollaboratorContext();
+	useEffect(() => {
+		document.title = "Don Saúde | Editar colaborador";
+	}, []);
+
 	const { id } = useParams();
-	const [collaborator, setCollaborator] = useState<CollaboratorProps>();
 	const [isLoading, setIsLoading] = useState(false);
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		setIsLoading(true);
 
-		if (!id) {
-			toast.error("Ocorreu um erro ao editar um colaborador", {
-				position: "bottom-right",
-			});
-
-			return;
-		}
-
-		fetch(`${url}/api/collaborator/${id}`, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-			},
-		})
-			.then(async (response) => {
-				const data = await response.json();
-
-				setCollaborator(data.data);
-			})
+		fetchCollaboratorById(id)
 			.catch((err) => {
 				toast.error("Ocorreu um erro ao buscar os colaboradores", {
 					position: "bottom-right",
@@ -55,7 +41,11 @@ const EditCollaborator = () => {
 					<CaretDown className="-rotate-90 size-[19px]" /> Editar colaborador
 				</Link>
 			</header>
-			<FormNewCollaborators defaultValues={collaborator} isEditAction />
+			<FormCollaborators
+				isLoadingComponents={isLoading}
+				defaultValues={collaborator}
+				isEditAction
+			/>
 		</main>
 	);
 };

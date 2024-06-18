@@ -23,7 +23,7 @@ const Input = forwardRef<HTMLInputElement, Props>(
 						{icon}
 						<input
 							id={id}
-							className="text-gray-400 flex-1 placeholder:text-gray-400"
+							className="text-gray-400 flex-1 placeholder:text-gray-400 disabled:opacity-30 disabled:cursor-not-allowed"
 							ref={ref}
 							{...props}
 						/>
@@ -47,7 +47,7 @@ const Input = forwardRef<HTMLInputElement, Props>(
 					{icon}
 					<input
 						id={id}
-						className="text-gray-400 flex-1 placeholder:text-gray-400"
+						className="text-gray-400 flex-1 placeholder:text-gray-400 disabled:opacity-30 disabled:cursor-not-allowed"
 						ref={ref}
 						{...props}
 					/>

@@ -1,8 +1,13 @@
 import { Link } from "react-router-dom";
 import CaretDown from "../../assets/icons/CaretDown";
-import FormNewCollaborators from "../Forms/form-collaborators";
+import FormCollaborators from "../Forms/form-collaborators";
+import { useEffect } from "react";
 
 const NewCollaborators = () => {
+	useEffect(() => {
+		document.title = "Don Saúde | Novo colaborador";
+	}, []);
+
 	return (
 		<main className="flex-1 min-h-full bg-[#F2F4F7] px-10 py-8">
 			<header className="flex justify-between">
@@ -13,7 +18,7 @@ const NewCollaborators = () => {
 					<CaretDown className="-rotate-90 size-[19px]" /> Novo colaborador
 				</Link>
 			</header>
-			<FormNewCollaborators />
+			<FormCollaborators />
 		</main>
 	);
 };

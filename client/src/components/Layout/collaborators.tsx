@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Four from "../../assets/icons/Four";
 import PlusCircle from "../../assets/icons/PlusCircle";
 import Button from "../button";
@@ -8,6 +8,10 @@ import TableCollaborators from "../Tables/table-collaborators";
 
 const Collaborators = () => {
 	const [selectedAccessItemIndex, setSelectedAccessItemIndex] = useState(0);
+
+	useEffect(() => {
+		document.title = "Don Saúde | Colaboradores";
+	}, []);
 
 	return (
 		<main className="flex-1 min-h-full bg-[#F2F4F7] px-10 py-8">

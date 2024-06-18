@@ -9,30 +9,20 @@ import Password from "../../assets/icons/Password";
 import ClockCounterClockwise from "../../assets/icons/ClockCounterClockwise";
 import CaretDown from "../../assets/icons/CaretDown";
 import { useEffect, useState } from "react";
-import { url } from "../../utils/utils";
 import toast from "react-hot-toast";
 import Skeleton from "../skeleton";
-import type { CollaboratorProps } from "../../types/types";
+import { useCollaboratorContext } from "../../context/CollaboratorContext";
 
 const TableCollaborators = ({ selectedItem }: { selectedItem: number }) => {
-	const [collaborators, setCollaborators] = useState<CollaboratorProps[]>([]);
+	const { fetchCollaborators, collaborators } = useCollaboratorContext();
 	const [isLoading, setIsLoading] = useState(false);
 	const isWithAcessSystem = selectedItem === 0;
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		setIsLoading(true);
 
-		fetch(`${url}/api/getCollaborators`, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-			},
-		})
-			.then(async (response) => {
-				const data = await response.json();
-
-				setCollaborators(data.data);
-			})
+		fetchCollaborators()
 			.catch((err) => {
 				toast.error("Ocorreu um erro ao buscar os colaboradores", {
 					position: "bottom-right",
