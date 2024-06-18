@@ -45,7 +45,7 @@ const Button = ({
 				disabled={isLoading}
 				{...props}
 			>
-				<Link to={href}>
+				<Link className="flex items-center justify-center gap-x-2" to={href}>
 					{isLoading ? (
 						<svg
 							aria-hidden="true"

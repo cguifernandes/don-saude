@@ -1,10 +1,10 @@
-import User from "../entities/User";
 import { AppDataSource } from "../../database/data-source";
 import { HttpStatusCode } from "../../types/types";
 import type { CollaboratorProps } from "../../../../common/types";
+import Collaborator from "../entities/Collaborator";
 require("dotenv").config();
 
-const userRepository = AppDataSource.getRepository(User);
+const collaboratorRepository = AppDataSource.getRepository(Collaborator);
 
 export const setCollaborator = async (newCollaborator: CollaboratorProps) => {
 	if (
@@ -20,10 +20,10 @@ export const setCollaborator = async (newCollaborator: CollaboratorProps) => {
 		};
 	}
 
-	const user = userRepository.create({ ...newCollaborator });
+	const collaborator = collaboratorRepository.create({ ...newCollaborator });
 
 	return {
-		data: user,
+		data: collaborator,
 		status: HttpStatusCode.created,
 		message: "Colaborador cadastrado com sucesso",
 	};

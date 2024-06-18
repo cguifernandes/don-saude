@@ -5,7 +5,7 @@ export const setCollaboratorController = async (
 	req: Request,
 	res: Response,
 ) => {
-	const newController = req.body;
+	const newCollaborator = req.body;
 
-	res.json(await setCollaborator(newController));
+	res.json(await setCollaborator(newCollaborator));
 };
