@@ -124,3 +124,29 @@ export const getCollaboratorWithId = async (id?: string) => {
 		data: existUser,
 	};
 };
+
+export const removeCollaborator = async (id?: string) => {
+	if (!id) {
+		return {
+			status: HttpStatusCode.noContent,
+			data: undefined,
+			message: "O ID não foi fornecido",
+		};
+	}
+
+	const deletedCollaborator = await collaboratorRepository.delete(id);
+
+	if (deletedCollaborator.affected === 0) {
+		return {
+			status: HttpStatusCode.notFound,
+			data: undefined,
+			message: "Colaborador não encontrado",
+		};
+	}
+
+	return {
+		message: "Usuàrio removido com sucesso",
+		status: HttpStatusCode.ok,
+		data: deletedCollaborator,
+	};
+};

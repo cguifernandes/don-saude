@@ -3,6 +3,7 @@ import {
 	editCollaborator,
 	getCollaborator,
 	getCollaboratorWithId,
+	removeCollaborator,
 	setCollaborator,
 } from "../repositories/CollaboratorRepository";
 
@@ -39,4 +40,13 @@ export const editCollaboratorController = async (
 	const { id } = req.params;
 
 	res.json(await editCollaborator(collaborator, id));
+};
+
+export const removeCollaboratorController = async (
+	req: Request,
+	res: Response,
+) => {
+	const { id } = req.params;
+
+	res.json(await removeCollaborator(id));
 };
