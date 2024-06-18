@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import CaretDown from "../../assets/icons/CaretDown";
-import FormNewCollaborators from "../Forms/form-new-collaborators";
+import FormNewCollaborators from "../Forms/form-collaborators";
 
 const NewCollaborators = () => {
 	return (

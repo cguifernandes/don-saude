@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import type { ChangeEvent, Dispatch, InputHTMLAttributes } from "react";
+import type { ChangeEvent, InputHTMLAttributes } from "react";
 import FileArrowDown from "../assets/icons/FileArrowDown";
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
@@ -7,8 +7,8 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 	className?: string;
 	error?: string;
 	id: string;
-	setFile?: Dispatch<React.SetStateAction<File | undefined>>;
-	file?: File;
+	file?: File | null;
+	setFile?: (file: File | null) => void;
 }
 
 const File = ({

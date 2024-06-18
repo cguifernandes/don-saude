@@ -1,24 +1,19 @@
 import { AppDataSource } from "../../database/data-source";
 import { type CollaboratorProps, HttpStatusCode } from "../../types/types";
 import Collaborator from "../entities/Collaborator";
-import * as jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import User from "../entities/User";
 require("dotenv").config();
 
 const collaboratorRepository = AppDataSource.getRepository(Collaborator);
-const userRepository = AppDataSource.getRepository(User);
 
-export const setCollaborator = async (
-	newCollaborator: CollaboratorProps & { password?: string; token?: string },
-) => {
+export const setCollaborator = async (newCollaborator: CollaboratorProps) => {
 	if (
 		!newCollaborator.cpf ||
 		!newCollaborator.email ||
 		!newCollaborator.name ||
 		!newCollaborator.tel ||
 		!newCollaborator.password ||
-		!newCollaborator.token
+		!newCollaborator.nameFile
 	) {
 		return {
 			status: HttpStatusCode.noContent,
@@ -26,48 +21,12 @@ export const setCollaborator = async (
 			message: "Usuário inválido",
 		};
 	}
-	const decodedToken = jwt.verify(
-		newCollaborator.token,
-		process.env.JWT_SECRET ?? "",
-	) as { userId: string };
-
-	if (!decodedToken || !decodedToken.userId) {
-		return {
-			status: HttpStatusCode.unauthorized,
-			data: undefined,
-			message: "Token inválido",
-		};
-	}
-
-	const user = await userRepository.findOne({
-		where: { id: decodedToken.userId },
-	});
-
-	if (!user) {
-		return {
-			status: HttpStatusCode.notFound,
-			data: undefined,
-			message: "Usuário não encontrado",
-		};
-	}
-
-	const comparedPassword = await bcrypt.compare(
-		newCollaborator.password,
-		user.password,
-	);
-
-	if (!comparedPassword) {
-		return {
-			status: HttpStatusCode.unauthorized,
-			data: undefined,
-			message: "Senha inválida",
-		};
-	}
-
+	const hash = await bcrypt.hash(newCollaborator.password, 10);
 	const collaborator = collaboratorRepository.create({
 		...newCollaborator,
-		user: user,
+		password: hash,
 	});
+
 	await collaboratorRepository.save(collaborator);
 
 	return {
@@ -78,13 +37,39 @@ export const setCollaborator = async (
 };
 
 export const getCollaborator = async () => {
-	const collaborator = await collaboratorRepository.find({
-		relations: ["user"],
-	});
+	const collaborator = await collaboratorRepository.find();
 
 	return {
 		data: collaborator,
 		status: HttpStatusCode.ok,
 		message: "Colaboradores encontrados",
+	};
+};
+
+export const getCollaboratorWithId = async (id?: string) => {
+	if (!id) {
+		return {
+			status: HttpStatusCode.noContent,
+			data: undefined,
+			message: "O ID não foi fornecido",
+		};
+	}
+
+	const existUser = await collaboratorRepository.findOne({
+		where: { id },
+	});
+
+	if (!existUser) {
+		return {
+			status: HttpStatusCode.notFound,
+			data: undefined,
+			message: "Colaborador não encontrado",
+		};
+	}
+
+	return {
+		message: "Usuàrio encontrado com sucesso",
+		status: HttpStatusCode.ok,
+		data: existUser,
 	};
 };

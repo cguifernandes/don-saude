@@ -17,6 +17,8 @@ export type CollaboratorProps = {
 	cpf?: string | undefined;
 	tel?: string | undefined;
 	email?: string | undefined;
+	password?: string | undefined;
+	nameFile?: string | undefined;
 };
 
 export type UserProps = {

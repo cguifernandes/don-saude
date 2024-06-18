@@ -1,37 +1,73 @@
-import { type FormEvent, useState } from "react";
+import { type FormEvent, useState, useEffect, type ChangeEvent } from "react";
 import File from "../file";
 import Input from "../input";
 import Button from "../button";
 import InputPassword from "../input-password";
 import { url } from "../../utils/utils";
-import { useAuth } from "../../context/AuthContext";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import type { CollaboratorProps } from "../../types/types";
 
-const FormNewCollaborators = () => {
-	const [selectedFile, setSelectedFile] = useState<File>();
+interface Props {
+	isEditAction?: boolean;
+	defaultValues?: CollaboratorProps;
+}
+
+const FormCollaborators = ({ isEditAction = false, defaultValues }: Props) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
-	const { token } = useAuth();
 	const [errors, setErrors] = useState<{
 		[key: string]: {
 			message: string;
 		} | null;
 	} | null>({});
+	const [formData, setFormData] = useState<{
+		name: string;
+		cpf: string;
+		tel: string;
+		email: string;
+		password: string;
+		confirmPassword: string;
+		selectedFile: File | null;
+	}>({
+		name: defaultValues?.name ?? "",
+		cpf: defaultValues?.cpf ?? "",
+		tel: defaultValues?.tel ?? "",
+		email: defaultValues?.email ?? "",
+		password: "",
+		confirmPassword: "",
+		selectedFile: null,
+	});
+
+	useEffect(() => {
+		if (defaultValues) {
+			setFormData({
+				name: defaultValues.name ?? "",
+				cpf: defaultValues.cpf ?? "",
+				tel: defaultValues.tel ?? "",
+				email: defaultValues.email ?? "",
+				password: "",
+				confirmPassword: "",
+				selectedFile: null,
+			});
+		}
+	}, [defaultValues]);
+
+	const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
+		const { name, value, files } = e.target;
+		setFormData((prevFormData) => ({
+			...prevFormData,
+			[name]: files ? files[0] : value,
+		}));
+	};
 
 	const handleSubmitNewCollaborators = async (
 		e: FormEvent<HTMLFormElement>,
 	) => {
 		e.preventDefault();
 
-		const formData = new FormData(e.currentTarget);
-		const name = formData.get("name") as string;
-		const cpf = formData.get("cpf") as string;
-		const tel = formData.get("tel") as string;
-		const email = formData.get("email") as string;
-		const password = formData.get("password") as string;
-		const confirmPassword = formData.get("confirm-password") as string;
-
+		const { name, cpf, tel, email, password, confirmPassword, selectedFile } =
+			formData;
 		const newErrors: { [key: string]: { message: string } | null } = {};
 
 		const validateField = (
@@ -80,7 +116,14 @@ const FormNewCollaborators = () => {
 					headers: {
 						"Content-Type": "application/json",
 					},
-					body: JSON.stringify({ cpf, email, name, tel, password, token }),
+					body: JSON.stringify({
+						cpf,
+						email,
+						name,
+						tel,
+						password,
+						nameFile: selectedFile?.name,
+					}),
 				});
 
 				const data: {
@@ -100,7 +143,9 @@ const FormNewCollaborators = () => {
 					navigate("/dashboard/collaborators");
 				}
 			} catch (error) {
-				toast.error("Ocorreu um erro ao cadastrar um colaborador");
+				toast.error("Ocorreu um erro ao cadastrar um colaborador", {
+					position: "bottom-right",
+				});
 				console.error("Ocorreu um erro", error);
 			} finally {
 				setIsLoading(false);
@@ -122,6 +167,8 @@ const FormNewCollaborators = () => {
 					maxLength={48}
 					placeholder="Digite o nome completo"
 					error={errors?.name?.message}
+					value={formData.name}
+					onChange={handleChangeInput}
 				/>
 				<Input
 					id="cpf"
@@ -130,7 +177,9 @@ const FormNewCollaborators = () => {
 					name="cpf"
 					placeholder="Apenas números"
 					maxLength={11}
+					value={formData.cpf}
 					error={errors?.cpf?.message}
+					onChange={handleChangeInput}
 				/>
 			</div>
 			<div className="flex justify-between items-center gap-x-4">
@@ -140,41 +189,56 @@ const FormNewCollaborators = () => {
 					label="Telefone"
 					name="tel"
 					maxLength={22}
+					value={formData.tel}
 					placeholder="DDD + Número"
 					error={errors?.tel?.message}
+					onChange={handleChangeInput}
 				/>
 				<Input
 					id="email"
 					className="w-2/4"
 					label="E-mail"
 					name="email"
+					value={formData.email}
 					placeholder="Digite aqui"
 					error={errors?.email?.message}
+					onChange={handleChangeInput}
 				/>
 			</div>
-			<div className="flex justify-between items-center gap-x-4">
-				<InputPassword
-					id="password"
-					className="w-2/4"
-					name="password"
-					label="Senha"
-					placeholder="Digite aqui"
-					maxLength={16}
-					error={errors?.password?.message}
-				/>
-				<InputPassword
-					id="confirm-password"
-					className="w-2/4"
-					name="confirm-password"
-					label="Confirme a senha"
-					maxLength={16}
-					placeholder="Digite novamente aqui"
-					error={errors?.confirmPassword?.message}
-				/>
-			</div>
+			{!isEditAction && (
+				<div className="flex justify-between items-center gap-x-4">
+					<InputPassword
+						id="password"
+						className="w-2/4"
+						name="password"
+						label="Senha"
+						placeholder="Digite aqui"
+						value={formData.password}
+						maxLength={16}
+						error={errors?.password?.message}
+						onChange={handleChangeInput}
+					/>
+					<InputPassword
+						id="confirm-password"
+						className="w-2/4"
+						name="confirmPassword"
+						label="Confirme a senha"
+						value={formData.confirmPassword}
+						maxLength={16}
+						placeholder="Digite novamente aqui"
+						error={errors?.confirmPassword?.message}
+						onChange={handleChangeInput}
+					/>
+				</div>
+			)}
 			<File
-				file={selectedFile}
-				setFile={setSelectedFile}
+				file={formData.selectedFile}
+				setFile={(file: File | null) =>
+					setFormData((prevFormData) => ({
+						...prevFormData,
+						selectedFile: file,
+					}))
+				}
 				id="input-file"
 				label="Foto"
 				error={errors?.selectedFile?.message}
@@ -201,4 +265,4 @@ const FormNewCollaborators = () => {
 	);
 };
 
-export default FormNewCollaborators;
+export default FormCollaborators;

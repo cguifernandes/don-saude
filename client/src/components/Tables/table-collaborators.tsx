@@ -30,12 +30,13 @@ const TableCollaborators = ({ selectedItem }: { selectedItem: number }) => {
 		})
 			.then(async (response) => {
 				const data = await response.json();
-				console.log(data);
 
 				setCollaborators(data.data);
 			})
 			.catch((err) => {
-				toast.error("Ocorreu um erro ao buscar os colaboradores");
+				toast.error("Ocorreu um erro ao buscar os colaboradores", {
+					position: "bottom-right",
+				});
 				console.log(`Ocorreu um erro: ${err}`);
 			})
 			.finally(() => {
@@ -104,30 +105,10 @@ const TableCollaborators = ({ selectedItem }: { selectedItem: number }) => {
 								)}
 								<td className="py-3 px-3 text-xs text-gray-700 font-medium w-20">
 									<div className="flex items-center gap-x-2 w-20">
-										<button
-											type="button"
-											className="rounded-full !size-4 flex items-center justify-center"
-										>
-											<PencilSimple className="text-gray-400" />
-										</button>
-										<button
-											type="button"
-											className="rounded-full !size-4 flex items-center justify-center"
-										>
-											<ShieldSlash className="text-gray-400" />
-										</button>
-										<button
-											type="button"
-											className="rounded-full !size-4 flex items-center justify-center"
-										>
-											<Password className="text-gray-400" />
-										</button>
-										<button
-											type="button"
-											className="rounded-full !size-4 flex items-center justify-center"
-										>
-											<ClockCounterClockwise className="text-gray-400" />
-										</button>
+										<Skeleton isRoundedFull className="rounded-full !size-4" />
+										<Skeleton isRoundedFull className="rounded-full !size-4" />
+										<Skeleton isRoundedFull className="rounded-full !size-4" />
+										<Skeleton isRoundedFull className="rounded-full !size-4" />
 									</div>
 								</td>
 							</tr>
@@ -158,7 +139,7 @@ const TableCollaborators = ({ selectedItem }: { selectedItem: number }) => {
 								</td>
 								{isWithAcessSystem && (
 									<td className="py-3 px-3 max-w-28 truncate text-xs text-gray-700 font-medium">
-										{collaborator.user?.email}
+										Partner Name
 									</td>
 								)}
 								<td className="py-3 px-3 text-xs text-gray-700 font-medium w-20">
@@ -167,7 +148,11 @@ const TableCollaborators = ({ selectedItem }: { selectedItem: number }) => {
 											type="button"
 											className="rounded-full !size-4 flex items-center justify-center"
 										>
-											<PencilSimple className="text-gray-400" />
+											<a
+												href={`/dashboard/edit-collaborator/${collaborator.id}`}
+											>
+												<PencilSimple className="text-gray-400" />
+											</a>
 										</button>
 										<button
 											type="button"

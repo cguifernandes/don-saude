@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import {
 	getCollaborator,
+	getCollaboratorWithId,
 	setCollaborator,
 } from "../repositories/CollaboratorRepository";
 
@@ -18,4 +19,13 @@ export const getCollaboratorController = async (
 	res: Response,
 ) => {
 	res.json(await getCollaborator());
+};
+
+export const getCollaboratorWithIdController = async (
+	req: Request,
+	res: Response,
+) => {
+	const { id } = req.params;
+
+	res.json(await getCollaboratorWithId(id));
 };

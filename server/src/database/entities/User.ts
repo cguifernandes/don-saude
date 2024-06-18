@@ -1,5 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import Collaborator from "./Collaborator";
+import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 @Entity("user")
 class User {
@@ -14,12 +13,6 @@ class User {
 
 	@Column({ default: false })
 	rememberMe: boolean;
-
-	@OneToMany(
-		() => Collaborator,
-		(collaborator) => collaborator.user,
-	)
-	collaborators: Collaborator[];
 }
 
 export default User;

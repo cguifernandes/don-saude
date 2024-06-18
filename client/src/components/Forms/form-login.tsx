@@ -70,7 +70,9 @@ const FormLogin = () => {
 					navigate("/dashboard");
 				}
 			} catch (error) {
-				toast.error("Ocorreu um erro ao fazer login");
+				toast.error("Ocorreu um erro ao fazer login", {
+					position: "bottom-right",
+				});
 				console.error("Ocorreu um erro", error);
 			} finally {
 				setIsLoading(false);
