@@ -12,19 +12,14 @@ const Input = forwardRef<HTMLInputElement, Props>(
 	({ label, icon, className, error, addOn, id, ...props }, ref) => {
 		if (label) {
 			return (
-				<div className="flex flex-col gap-y-1">
+				<div className={clsx("flex flex-col gap-y-1", className)}>
 					<label
 						htmlFor={id}
 						className="text-gray-500 select-none font-medium text-sm"
 					>
 						{label}
 					</label>
-					<div
-						className={clsx(
-							"flex items-center gap-x-2 rounded-xl border px-3.5 shadow-default h-[41px] text-sm font-normal border-gray-100",
-							className,
-						)}
-					>
+					<div className="flex items-center gap-x-2 rounded-xl border px-3.5 shadow-default h-[41px] text-sm font-normal border-gray-100">
 						{icon}
 						<input
 							id={id}

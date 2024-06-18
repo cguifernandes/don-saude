@@ -16,6 +16,7 @@ const Collaborators = () => {
 				<Button
 					icon={<PlusCircle />}
 					theme="solid"
+					href="/dashboard/new-collaborators"
 					className="font-bold flex items-center gap-x-2"
 				>
 					Nova Categoria

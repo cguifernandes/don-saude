@@ -12,23 +12,23 @@ const PlusCircle = ({ className }: { className?: string }) => {
 			<path
 				d="M10 17.5C14.1421 17.5 17.5 14.1421 17.5 10C17.5 5.85786 14.1421 2.5 10 2.5C5.85786 2.5 2.5 5.85786 2.5 10C2.5 14.1421 5.85786 17.5 10 17.5Z"
 				stroke="currentColor"
-				stroke-width="1.66667"
-				stroke-linecap="round"
-				stroke-linejoin="round"
+				strokeWidth="1.66667"
+				strokeLinecap="round"
+				strokeLinejoin="round"
 			/>
 			<path
 				d="M6.875 10H13.125"
 				stroke="currentColor"
-				stroke-width="1.66667"
-				stroke-linecap="round"
-				stroke-linejoin="round"
+				strokeWidth="1.66667"
+				strokeLinecap="round"
+				strokeLinejoin="round"
 			/>
 			<path
 				d="M10 6.875V13.125"
 				stroke="currentColor"
-				stroke-width="1.66667"
-				stroke-linecap="round"
-				stroke-linejoin="round"
+				strokeWidth="1.66667"
+				strokeLinecap="round"
+				strokeLinejoin="round"
 			/>
 		</svg>
 	);

@@ -17,69 +17,69 @@ export const itens = [
 	{
 		text: "Indicadores",
 		icon: <ChartPie className="text-gray-400" />,
-		path: "/indicators",
+		path: "indicators",
 	},
 	{
 		text: "Atendimento",
 		icon: <IdentificationBadge className="text-gray-400" />,
-		path: "/service",
+		path: "service",
 	},
 	{
 		text: "App Don",
 		icon: <DeviceMobileCamera className="text-gray-400" />,
-		path: "/app",
+		path: "app",
 	},
 	{
 		text: "Financeiro",
 		icon: <CurrencyDollar className="text-gray-400" />,
-		path: "/financial",
+		path: "financial",
 	},
 	{
 		text: "Parceiros",
 		icon: <UsersFour className="text-gray-400" />,
-		path: "/partners",
+		path: "partners",
 	},
 	{
 		text: "Usuários",
 		icon: <User className="text-gray-400" />,
-		path: "/users",
+		path: "users",
 	},
 	{
 		text: "Configurações",
 		icon: <GearSix className="text-gray-400 min-w-5" />,
-		path: "/config",
+		path: "config",
 	},
 	{
 		text: "Campanhas",
-		path: "/campaigns",
+		path: "campaigns",
 	},
 	{
 		text: "Categorias",
-		path: "/categories",
+		path: "categories",
 	},
 	{
 		text: "Colaboradores",
-		path: "/collaborators",
+		path: "collaborators",
 	},
 	{
 		text: "Local de atendimento",
-		path: "/service",
+		path: "service",
 	},
 	{
 		text: "Metas",
-		path: "/goals",
+		path: "goals",
 	},
 	{
 		text: "Modelos de orçamento",
-		path: "/budgets",
+		path: "budgets",
 	},
 	{
 		text: "Permissões",
-		path: "/permissions",
+		path: "permissions",
 	},
 	{
 		text: "Procedimentos",
-		path: "/procedures",
+		path: "procedures",
 	},
 ];
 

@@ -8,6 +8,7 @@ import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./protectedRoutes";
 import Collaborators from "./components/Layout/collaborators";
+import NewCollaborators from "./components/Layout/collaborators-create";
 
 const router = createBrowserRouter([
 	{
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
 			{
 				path: "collaborators",
 				element: <Collaborators />,
+			},
+			{
+				path: "new-collaborators",
+				element: <NewCollaborators />,
 			},
 		],
 	},

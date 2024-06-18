@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 import type { FC, ReactNode } from "react";

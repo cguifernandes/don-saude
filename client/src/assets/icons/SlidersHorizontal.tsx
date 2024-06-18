@@ -12,44 +12,44 @@ const SlidersHorizontal = ({ className }: { className?: string }) => {
 			<path
 				d="M11.5625 13.4375H3.125"
 				stroke="currentColor"
-				stroke-width="1.66667"
-				stroke-linecap="round"
-				stroke-linejoin="round"
+				strokeWidth="1.66667"
+				strokeLinecap="round"
+				strokeLinejoin="round"
 			/>
 			<path
 				d="M16.875 13.4375H14.6875"
 				stroke="currentColor"
-				stroke-width="1.66667"
-				stroke-linecap="round"
-				stroke-linejoin="round"
+				strokeWidth="1.66667"
+				strokeLinecap="round"
+				strokeLinejoin="round"
 			/>
 			<path
 				d="M13.125 15C13.9879 15 14.6875 14.3004 14.6875 13.4375C14.6875 12.5746 13.9879 11.875 13.125 11.875C12.2621 11.875 11.5625 12.5746 11.5625 13.4375C11.5625 14.3004 12.2621 15 13.125 15Z"
 				stroke="currentColor"
-				stroke-width="1.66667"
-				stroke-linecap="round"
-				stroke-linejoin="round"
+				strokeWidth="1.66667"
+				strokeLinecap="round"
+				strokeLinejoin="round"
 			/>
 			<path
 				d="M6.5625 6.5625H3.125"
 				stroke="currentColor"
-				stroke-width="1.66667"
-				stroke-linecap="round"
-				stroke-linejoin="round"
+				strokeWidth="1.66667"
+				strokeLinecap="round"
+				strokeLinejoin="round"
 			/>
 			<path
 				d="M16.875 6.5625H9.6875"
 				stroke="currentColor"
-				stroke-width="1.66667"
-				stroke-linecap="round"
-				stroke-linejoin="round"
+				strokeWidth="1.66667"
+				strokeLinecap="round"
+				strokeLinejoin="round"
 			/>
 			<path
 				d="M8.125 8.125C8.98794 8.125 9.6875 7.42544 9.6875 6.5625C9.6875 5.69956 8.98794 5 8.125 5C7.26206 5 6.5625 5.69956 6.5625 6.5625C6.5625 7.42544 7.26206 8.125 8.125 8.125Z"
 				stroke="currentColor"
-				stroke-width="1.66667"
-				stroke-linecap="round"
-				stroke-linejoin="round"
+				strokeWidth="1.66667"
+				strokeLinecap="round"
+				strokeLinejoin="round"
 			/>
 		</svg>
 	);

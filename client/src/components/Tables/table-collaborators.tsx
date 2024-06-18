@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import MagnifyingGlass from "../../assets/icons/MagnifyingGlass";
 import SlidersHorizontal from "../../assets/icons/SlidersHorizontal";
 import Button from "../button";

@@ -12,8 +12,8 @@ const CaretDown = ({ className }: { className?: string }) => {
 			<path
 				d="M1.875 6.75L5 3.625L8.125 6.75"
 				stroke="currentColor"
-				stroke-linecap="round"
-				stroke-linejoin="round"
+				strokeLinecap="round"
+				strokeLinejoin="round"
 			/>
 		</svg>
 	);

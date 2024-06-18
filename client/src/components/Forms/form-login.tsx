@@ -88,7 +88,6 @@ const FormLogin = () => {
 				placeholder="Preencha com e-mail"
 				label="E-mail"
 				name="email"
-				maxLength={32}
 				error={errors?.email?.message}
 			/>
 			<InputPassword

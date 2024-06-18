@@ -5,7 +5,7 @@ class User {
 	@PrimaryGeneratedColumn("uuid")
 	id: string;
 
-	@Column("varchar", { length: 32, nullable: false })
+	@Column("varchar", { nullable: false })
 	email: string;
 
 	@Column("varchar", { nullable: false })
