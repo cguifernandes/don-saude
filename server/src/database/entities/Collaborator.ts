@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import User from "./User";
 
 @Entity("collaborator")
 class Collaborator {
@@ -16,6 +17,12 @@ class Collaborator {
 
 	@Column("varchar", { nullable: false })
 	email: string;
+
+	@ManyToOne(
+		() => User,
+		(user) => user.collaborators,
+	)
+	user: User;
 }
 
 export default Collaborator;

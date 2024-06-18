@@ -100,6 +100,7 @@ const FormNewCollaborators = () => {
 					navigate("/dashboard/collaborators");
 				}
 			} catch (error) {
+				toast.error("Ocorreu um erro ao cadastrar um colaborador");
 				console.error("Ocorreu um erro", error);
 			} finally {
 				setIsLoading(false);
@@ -138,6 +139,7 @@ const FormNewCollaborators = () => {
 					className="w-2/4"
 					label="Telefone"
 					name="tel"
+					maxLength={22}
 					placeholder="DDD + Número"
 					error={errors?.tel?.message}
 				/>

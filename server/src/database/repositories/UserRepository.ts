@@ -1,9 +1,8 @@
 import User from "../entities/User";
 import { AppDataSource } from "../../database/data-source";
-import { HttpStatusCode } from "../../types/types";
+import { HttpStatusCode, type UserProps } from "../../types/types";
 import bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
-import type { UserProps } from "../../../../common/types";
 require("dotenv").config();
 
 const userRepository = AppDataSource.getRepository(User);
@@ -29,6 +28,20 @@ export const setUsers = async (newUser: UserProps) => {
 				expiresIn: newUser.rememberMe ? "7d" : "1h",
 			},
 		);
+
+		const comparedPassword = await bcrypt.compare(
+			newUser.password,
+			existUser.password,
+		);
+
+		if (!comparedPassword) {
+			return {
+				message: "Senha inválida",
+				status: HttpStatusCode.unauthorized,
+				data: undefined,
+				token: undefined,
+			};
+		}
 
 		return {
 			message: "Login foi um sucesso, você será direcionado",

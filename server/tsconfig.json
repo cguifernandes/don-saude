@@ -8,10 +8,6 @@
 		"forceConsistentCasingInFileNames": true,
 		"strictPropertyInitialization": false,
 		"emitDecoratorMetadata": true,
-		"experimentalDecorators": true,
-		"baseUrl": "./",
-		"paths": {
-			"@shared/*": ["common/*"]
-		}
+		"experimentalDecorators": true
 	}
 }

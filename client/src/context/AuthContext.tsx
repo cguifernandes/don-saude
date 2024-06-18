@@ -5,8 +5,7 @@ import {
 	useEffect,
 	type ReactNode,
 } from "react";
-import type { UserProps } from "../../../common/types";
-import type { HttpStatusCode } from "../types/types";
+import type { HttpStatusCode, UserProps } from "../types/types";
 import { url } from "../utils/utils";
 
 interface AuthContextType {

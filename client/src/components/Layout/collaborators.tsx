@@ -60,7 +60,7 @@ const Collaborators = () => {
 					);
 				})}
 			</div>
-			<TableCollaborators />
+			<TableCollaborators selectedItem={selectedAccessItemIndex} />
 		</main>
 	);
 };
