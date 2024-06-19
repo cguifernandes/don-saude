@@ -73,5 +73,4 @@ O sistema possui as seguintes funcionalidades:
 
 ## Documentaão da API
 
-O sistema pode fazer:
 Foi utilizado o Swagger Hub para a criação da documentação da API: https://app.swaggerhub.com/apis/GuilhermeFernandes/don-saude/1.0.0
