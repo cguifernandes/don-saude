@@ -7,23 +7,27 @@ import PencilSimple from "../../assets/icons/PencilSimple";
 import ShieldSlash from "../../assets/icons/ShieldSlash";
 import Password from "../../assets/icons/Password";
 import ClockCounterClockwise from "../../assets/icons/ClockCounterClockwise";
-import CaretDown from "../../assets/icons/CaretDown";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Skeleton from "../skeleton";
 import { useCollaboratorContext } from "../../context/CollaboratorContext";
+import Select from "../select";
+import Pagination from "../pagination";
 
 const TableCollaborators = ({ selectedItem }: { selectedItem: number }) => {
-	const { fetchCollaborators, collaborators, searchCollaborator } =
+	const { fetchCollaborators, collaborators, searchCollaborator, count } =
 		useCollaboratorContext();
 	const [isLoading, setIsLoading] = useState(false);
+	const [selectedValueView, setSelectedValueView] = useState("10");
+	const [page, setPage] = useState(1);
 	const isWithAcessSystem = selectedItem === 0;
+	const totalPages = Math.ceil(count / Number.parseInt(selectedValueView));
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		setIsLoading(true);
 
-		fetchCollaborators()
+		fetchCollaborators(page, Number.parseInt(selectedValueView))
 			.catch((err) => {
 				toast.error("Ocorreu um erro ao buscar os colaboradores", {
 					position: "bottom-right",
@@ -33,11 +37,24 @@ const TableCollaborators = ({ selectedItem }: { selectedItem: number }) => {
 			.finally(() => {
 				setIsLoading(false);
 			});
-	}, []);
+	}, [page, selectedValueView]);
 
 	const handlerSearchCollaborator = (query: string) => {
-		if (query !== "") {
-			setIsLoading(true);
+		setIsLoading(true);
+		setPage(1);
+
+		if (query.trim() === "") {
+			fetchCollaborators(page, Number.parseInt(selectedValueView))
+				.catch((err) => {
+					toast.error("Ocorreu um erro ao buscar os colaboradores", {
+						position: "bottom-right",
+					});
+					console.log(`Ocorreu um erro: ${err}`);
+				})
+				.finally(() => {
+					setIsLoading(false);
+				});
+		} else {
 			searchCollaborator(query)
 				.catch((err) => {
 					toast.error("Ocorreu um erro ao buscar os colaboradores", {
@@ -191,28 +208,32 @@ const TableCollaborators = ({ selectedItem }: { selectedItem: number }) => {
 						<div className="w-full justify-between flex items-center pt-5 pb-1 px-3">
 							<div className="flex items-center text-gray-400 text-xs">
 								Mostrando&nbsp;
-								<div className="px-2 py-1 rounded-full bg-gray-200 font-medium flex items-center gap-x-1 border border-gray-100 w-fit text-gray-700">
-									10
-									<CaretDown className="!size-[6px] rotate-180 stroke-2 text-gray-700" />
-								</div>
+								<Select
+									selectedDefault="10"
+									setSelectedValue={setSelectedValueView}
+									options={[
+										{
+											value: "5",
+											label: "5",
+										},
+										{
+											value: "10",
+											label: "10",
+										},
+										{
+											value: "15",
+											label: "15",
+										},
+									]}
+								/>
 								&nbsp; de&nbsp;
-								<b className="text-gray-700">432</b>&nbsp; resultados
+								<b className="text-gray-700">{count}</b>&nbsp;resultados
 							</div>
-							<div className="text-xs gap-x-2 flex items-center font-medium text-gray-400">
-								<button
-									type="button"
-									className="flex items-center justify-center size-3"
-								>
-									<CaretDown className="!size-[6px] -rotate-90 stroke-2 text-gray-700" />
-								</button>
-								1
-								<button
-									type="button"
-									className="flex items-center justify-center size-3"
-								>
-									<CaretDown className="!size-[6px] rotate-90 stroke-2 text-gray-700" />
-								</button>
-							</div>
+							<Pagination
+								totalPages={totalPages}
+								page={page}
+								setPage={setPage}
+							/>
 						</div>
 					</td>
 				</tr>

@@ -1,4 +1,4 @@
-import { Like } from "typeorm";
+import { ILike } from "typeorm";
 import { AppDataSource } from "../../database/data-source";
 import { type CollaboratorProps, HttpStatusCode } from "../../types/types";
 import Collaborator from "../entities/Collaborator";
@@ -38,12 +38,33 @@ export const setCollaborator = async (newCollaborator: CollaboratorProps) => {
 	};
 };
 
-export const getCollaborator = async () => {
-	const collaborator = await collaboratorRepository.find();
+export const getCollaborator = async (limit: string, page: string) => {
+	if (!limit || !page) {
+		return {
+			status: HttpStatusCode.noContent,
+			data: undefined,
+			message: "Valores não foram fornecidos",
+		};
+	}
+
+	const parsedLimit = Number.parseInt(limit);
+	const parsedPage = Number.parseInt(page);
+	const currentPage = Math.max(Number(parsedPage || 1), 1);
+
+	const collaborator = await collaboratorRepository.find({
+		take: parsedLimit,
+		skip: (currentPage - 1) * parsedLimit,
+	});
+
+	const count = await collaboratorRepository.count({
+		take: parsedLimit,
+		skip: (currentPage - 1) * parsedLimit,
+	});
 
 	return {
 		data: collaborator,
 		status: HttpStatusCode.ok,
+		count,
 		message: "Colaboradores encontrados",
 	};
 };
@@ -162,11 +183,9 @@ export const searchCollaborator = async (query: string) => {
 	}
 
 	const collaborators = await collaboratorRepository.find({
-		where: [
-			{ name: Like(`%${query}%`) },
-			{ cpf: Like(`%${query}%`) },
-			{ email: Like(`%${query}%`) },
-		],
+		where: {
+			name: ILike(`%${query}%`), // Usando ILike para busca case insensitive
+		},
 	});
 
 	if (!collaborators || collaborators.length === 0) {

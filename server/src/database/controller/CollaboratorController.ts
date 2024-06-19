@@ -21,7 +21,12 @@ export const getCollaboratorController = async (
 	req: Request,
 	res: Response,
 ) => {
-	res.json(await getCollaborator());
+	const { page, limit }: { page: string; limit: string } = req.query as {
+		page: string;
+		limit: string;
+	};
+
+	res.json(await getCollaborator(limit, page));
 };
 
 export const getCollaboratorWithIdController = async (

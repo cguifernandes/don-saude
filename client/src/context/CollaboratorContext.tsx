@@ -12,7 +12,7 @@ import toast from "react-hot-toast";
 interface CollaboratorContextType {
 	collaborators: CollaboratorProps[];
 	collaborator: CollaboratorProps;
-	fetchCollaborators: () => Promise<void>;
+	fetchCollaborators: (page: number, limit: number) => Promise<void>;
 	fetchCollaboratorById: (id: string | undefined) => Promise<void>;
 	addCollaborator: (collaborator: CollaboratorProps) => Promise<void>;
 	updateCollaborator: (
@@ -20,11 +20,13 @@ interface CollaboratorContextType {
 		collaborator: CollaboratorProps,
 	) => Promise<void>;
 	searchCollaborator: (query: string) => Promise<void>;
+	count: number;
 }
 
 const CollaboratorContext = createContext<CollaboratorContextType>({
 	collaborators: [],
 	collaborator: {},
+	count: 0,
 	fetchCollaborators: async () => {},
 	fetchCollaboratorById: async () => {},
 	addCollaborator: async () => {},
@@ -39,6 +41,7 @@ export const CollaboratorProvider: FC<{ children: ReactNode }> = ({
 }) => {
 	const [collaborators, setCollaborators] = useState<CollaboratorProps[]>([]);
 	const [collaborator, setCollaborator] = useState<CollaboratorProps>({});
+	const [count, setCount] = useState(0);
 
 	const fetchCollaboratorById = async (id: string | undefined) => {
 		try {
@@ -56,7 +59,7 @@ export const CollaboratorProvider: FC<{ children: ReactNode }> = ({
 				},
 			});
 
-			const data: { data: CollaboratorProps } = await response.json();
+			const data = await response.json();
 			setCollaborator(data.data);
 		} catch (error) {
 			console.error("Erro ao buscar colaborador:", error);
@@ -73,7 +76,7 @@ export const CollaboratorProvider: FC<{ children: ReactNode }> = ({
 				},
 			});
 
-			const data: { data: CollaboratorProps[] } = await response.json();
+			const data = await response.json();
 
 			setCollaborators(data.data);
 		} catch (error) {
@@ -82,11 +85,14 @@ export const CollaboratorProvider: FC<{ children: ReactNode }> = ({
 		}
 	};
 
-	const fetchCollaborators = async () => {
+	const fetchCollaborators = async (page: number, limit: number) => {
 		try {
-			const response = await fetch(`${url}/api/collaborators`);
+			const response = await fetch(
+				`${url}/api/collaborators?page=${page}&limit=${limit}`,
+			);
 			const data = await response.json();
 			setCollaborators(data.data);
+			setCount(data.count);
 		} catch (error) {
 			console.error("Erro ao buscar colaboradores:", error);
 			throw error;
@@ -144,6 +150,7 @@ export const CollaboratorProvider: FC<{ children: ReactNode }> = ({
 				addCollaborator,
 				updateCollaborator,
 				searchCollaborator,
+				count,
 			}}
 		>
 			{children}
