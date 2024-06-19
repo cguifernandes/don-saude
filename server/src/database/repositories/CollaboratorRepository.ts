@@ -141,7 +141,7 @@ export const getCollaboratorWithId = async (id: string) => {
 	}
 
 	return {
-		message: "Usuàrio encontrado com sucesso",
+		message: "Colaborador encontrado com sucesso",
 		status: HttpStatusCode.ok,
 		data: existUser,
 	};
