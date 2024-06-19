@@ -184,7 +184,7 @@ export const searchCollaborator = async (query: string) => {
 
 	const collaborators = await collaboratorRepository.find({
 		where: {
-			name: ILike(`%${query}%`), // Usando ILike para busca case insensitive
+			name: ILike(`%${query}%`),
 		},
 	});
 
