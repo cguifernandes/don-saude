@@ -55,6 +55,8 @@ npm install
 /server => npm run dev
 ```
 
+O banco utilizado foi o PostgreSQL e criado de forma local, logo será necessário alterar os dados no arquivo data-source.ts
+
 ## Funcionalidades
 
 Claro, aqui está uma versão melhorada do texto:
